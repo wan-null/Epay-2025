@@ -128,7 +128,7 @@ if($conf['cert_open']==2 && $userrow['cert']!=1){
 				</div>
 				<div class="col-xs-12 col-sm-6">
 					<h4>恭喜您已通过<?php echo $conf['sitename']?>实名认证！</h4>
-					<p>认证类型：<?php echo show_cert_type($userrow['certtype'])?><?php if($userrow['certtype']==0)echo '&nbsp;&nbsp;<span class="text-muted">[<a href="certificate.php?certtype=1&upgrade=1" style="color: #98a6ad;">升级到企业认证</a></span>]';?></p>
+					<p>认证类型：<?php echo show_cert_type($userrow['certtype'])?><?php if($userrow['certtype']==0 && $conf['cert_corpopen'] == 1)echo '&nbsp;&nbsp;<span class="text-muted">[<a href="certificate.php?certtype=1&upgrade=1" style="color: #98a6ad;">升级到企业认证</a></span>]';?></p>
 					<p>认证方式：<?php echo show_cert_method($userrow['certmethod'])?></p>
 					<p>真实姓名：<?php echo showstar((strlen($userrow['certname'])-3)/3).substr($userrow['certname'],-3)?></p>
 					<p>身份证号：<?php echo substr($userrow['certno'],0,3).showstar(11).substr($userrow['certno'],-4)?></p>

@@ -69,13 +69,42 @@ if(isset($_GET['ok']) && isset($_GET['trade_no'])){
 	</div></div>
 	<div id="captchaform"></div>
 <?php }?>
-<div class="btn-group btn-group-justified" role="group" aria-label="...">
+<style>
+.pay-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.pay-options > div {
+    flex: 1;
+    min-width: calc(25% - 10px);
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+    .pay-options > div {
+        min-width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .pay-options > div {
+        min-width: 100%;
+    }
+}
+</style>
+
+<div class="pay-options">
 <?php foreach($paytype as $rows){?>
-<div class="btn-group" role="group">
-  <button type="button" name="type" value="<?php echo $rows['id']?>" class="btn btn-default" onclick="submitPay(this)"><img src="/assets/icon/<?php echo $rows['name']?>.ico" height="18">&nbsp;<?php echo $rows['showname']?></button>
+<div>
+  <button type="button" name="type" value="<?php echo $rows['id']?>" class="btn btn-default btn-block" onclick="submitPay(this)">
+    <img src="/assets/icon/<?php echo $rows['name']?>.ico" height="18" style="margin-right: 5px;">&nbsp;<?php echo $rows['showname']?>
+  </button>
 </div>
 <?php }?>
 </div>
+</script>
 <?php }?>
 </center>
 </form>

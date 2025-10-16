@@ -56,7 +56,7 @@ unset($rs);
   <div class="form-group">
 	<select name="dstatus" class="form-control"><option value="">全部状态</option><optgroup label="订单状态"><option value="0">未支付</option><option value="1">已支付</option><option value="2">已退款</option><option value="3">已冻结</option><option value="4">预授权</option></optgroup><optgroup label="结算状态"><option value="settle_1">待结算</option><option value="settle_2">结算成功</option><option value="settle_3">结算失败</option></optgroup></select>
   </div>
-  <button type="submit" class="btn btn-primary">&nbsp;搜索&nbsp;</button>
+  <button type="submit" class="btn btn-primary">搜索</button>
   <a href="javascript:searchClear()" class="btn btn-default" title="刷新订单列表"><i class="fa fa-refresh"></i></a>
   <div class="btn-group" role="group">
 	<button type="button" id="batchAction" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">批量操作 <span class="caret"></span></button>
@@ -71,7 +71,7 @@ unset($rs);
 		<li><a href="javascript:operation(6)" data-action-type="6">确认结算</a></li>
 	</ul>
   </div>
-  <button type="button" onclick="statistics()" class="btn btn-default">&nbsp;统计&nbsp;</button>
+  <button type="button" onclick="statistics()" class="btn btn-default">统计</button>
 </form>
       <table id="listTable">
 	  </table>
