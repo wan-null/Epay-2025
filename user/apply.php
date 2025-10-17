@@ -183,16 +183,17 @@ if(isset($_GET['act']) && $_GET['act']=='do'){
 			<footer class="panel-footer">
 				<div class="col-sm-offset-2 col-sm-6"><br/>
 				<h4><span class="glyphicon glyphicon-info-sign"></span>注意事项</h4>
-					当前最低提现金额为<b><?php echo $conf['settle_money']?></b>元<br/>
+					<p>当前最低提现金额为<b><?php echo $conf['settle_money']?></b>元</p>
 					<?php if($conf['settle_maxlimit']>0){?>
-					<br/>每日手动申请提现次数限制为<b><?php echo $conf['settle_maxlimit']?></b>次<br/>
+					<p>每日手动申请提现次数限制为<b><?php echo $conf['settle_maxlimit']?></b>次</p>
 					<?php }?>
-					<br/>当前手动提现模式是：<?php echo $conf['settle_type']==1?'<b>D+1</b>，可提现余额为付款时间距离当前时间超过24小时的订单收入':'<b>D+0</b>，可提现余额为截止到现在你的收入';?><br/>
+					<p>当前手动提现模式是：<?php echo $conf['settle_type']==1?'<b>D+1</b>，可提现余额为付款时间距离当前时间超过24小时的订单收入':'<b>D+0</b>，可提现余额为截止到现在你的收入';?></p>
 					<?php if($conf['settle_transfer']==1){?>
-					<br/>申请提现后，你的款项将立刻下发到指定账户内。<?php if($conf['settle_transfermax']>0){?>（单笔金额超过<b><?php echo $conf['settle_transfermax']?></b>元的提现申请将转为人工处理，款项将在1天内下发到指定账户内）<?php }?>
+					<p>申请提现后，你的款项将立刻下发到指定账户内。<?php if($conf['settle_transfermax']>0){?>（单笔金额超过<b><?php echo $conf['settle_transfermax']?></b>元的提现申请将转为人工处理，款项将在1天内下发到指定账户内）<?php }?></p>
 					<?php }else{?>
-					<br/>申请提现后，你的款项将在1天内下发到指定账户内。
+					<p>申请提现后，你的款项将在1天内下发到指定账户内。</p>
 					<?php }?>
+					<p style="color:red;">微信提现的用户 提现后请自行扫码领取，如24小时未领取退回由商户自行承担</p>
 				</div>
 			</footer>
 		</div>
