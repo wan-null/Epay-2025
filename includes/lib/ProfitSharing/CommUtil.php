@@ -50,20 +50,20 @@ class CommUtil
     //订单分账定时任务
     public static function task(){
         global $DB, $conf;
-        $limit = 10; //每次查询分账的订单数量
+        $limit = 100; //每次查询分账的订单数量
         $list = $DB->getAll("SELECT A.*,B.channel,B.account,B.name,B.rate,B.info,B.uid psuid,C.uid,C.subchannel,C.realmoney ordermoney FROM pre_psorder A INNER JOIN pre_psreceiver B ON B.id=A.rid LEFT JOIN pre_order C ON C.trade_no=A.trade_no WHERE A.status=1 ORDER BY A.id ASC LIMIT {$limit}");
         foreach($list as $srow){
             self::process_item($srow);
         }
     
-        $limit = 10; //每次提交分账的订单数量
+        $limit = 100; //每次提交分账的订单数量
         $list = $DB->getAll("SELECT A.*,B.channel,B.account,B.name,B.rate,B.info,B.uid psuid,C.uid,C.subchannel,C.realmoney ordermoney FROM pre_psorder A INNER JOIN pre_psreceiver B ON B.id=A.rid LEFT JOIN pre_order C ON C.trade_no=A.trade_no WHERE A.status=0 AND (A.addtime<=DATE_SUB(NOW(), INTERVAL 60 SECOND) AND A.delay=0 OR A.addtime<=DATE_SUB(NOW(), INTERVAL 24 HOUR) AND A.delay=1) ORDER BY A.id ASC LIMIT {$limit}");
         foreach($list as $srow){
             self::process_item($srow);
         }
 
         if($conf['profits_failretry'] == 1){
-            $limit = 10; //每次提交分账的订单数量
+            $limit = 100; //每次提交分账的订单数量
             $list = $DB->getAll("SELECT A.*,B.channel,B.account,B.name,B.rate,B.info,B.uid psuid,C.uid,C.subchannel,C.realmoney ordermoney FROM pre_psorder A INNER JOIN pre_psreceiver B ON B.id=A.rid LEFT JOIN pre_order C ON C.trade_no=A.trade_no WHERE A.status=3 AND (A.addtime<=DATE_SUB(NOW(), INTERVAL 24 HOUR) AND A.delay=0 OR A.addtime<=DATE_SUB(NOW(), INTERVAL 48 HOUR) AND A.delay=1) AND A.retry=0 AND A.addtime>DATE_SUB(NOW(), INTERVAL 3 DAY) ORDER BY A.id ASC LIMIT {$limit}");
             foreach($list as $srow){
                 self::process_item($srow);

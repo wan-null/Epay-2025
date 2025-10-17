@@ -35,7 +35,7 @@ function convert_type($type){
 if($conf['settle_open']==0||$conf['settle_open']==1)exit('未开启手动申请提现');
 
 if($conf['settle_type']==1){
-	$today=date("Y-m-d").' 00:00:00';
+	$today=date("Y-m-d H:i:s", time() - 24 * 60 * 60);
 	$order_today=$DB->getColumn("SELECT SUM(realmoney) from pre_order where uid={$uid} and status=1 and endtime>='$today'");
 	if(!$order_today) $order_today = 0;
 	$enable_money=round($userrow['money']-$order_today,2);
@@ -184,8 +184,15 @@ if(isset($_GET['act']) && $_GET['act']=='do'){
 				<div class="col-sm-offset-2 col-sm-6"><br/>
 				<h4><span class="glyphicon glyphicon-info-sign"></span>注意事项</h4>
 					当前最低提现金额为<b><?php echo $conf['settle_money']?></b>元<br/>
-					当前手动提现模式是：<?php echo $conf['settle_type']==1?'<b>D+1</b>，可提现余额为截止到前一天你的收入':'<b>D+0</b>，可提现余额为截止到现在你的收入';?><br/>
-					<?php echo $conf['settle_transfer']==1?'申请提现后，你的款项将立刻下发到指定账户内。':'申请提现后，你的款项将在1天内下发到指定账户内。';?>
+					<?php if($conf['settle_maxlimit']>0){?>
+					<br/>每日手动申请提现次数限制为<b><?php echo $conf['settle_maxlimit']?></b>次<br/>
+					<?php }?>
+					<br/>当前手动提现模式是：<?php echo $conf['settle_type']==1?'<b>D+1</b>，可提现余额为付款时间距离当前时间超过24小时的订单收入':'<b>D+0</b>，可提现余额为截止到现在你的收入';?><br/>
+					<?php if($conf['settle_transfer']==1){?>
+					<br/>申请提现后，你的款项将立刻下发到指定账户内。<?php if($conf['settle_transfermax']>0){?>（单笔金额超过<b><?php echo $conf['settle_transfermax']?></b>元的提现申请将转为人工处理，款项将在1天内下发到指定账户内）<?php }?>
+					<?php }else{?>
+					<br/>申请提现后，你的款项将在1天内下发到指定账户内。
+					<?php }?>
 				</div>
 			</footer>
 		</div>
