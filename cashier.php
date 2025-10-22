@@ -31,6 +31,51 @@ if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger')!==false){
 <title>收银台 | <?php echo $sitename?$sitename:$conf['sitename']?> </title>
 <link href="/assets/css/reset.css" rel="stylesheet" type="text/css">
 <link href="/assets/css/main12.css?v=2" rel="stylesheet" type="text/css">
+<style>
+@media (max-width: 768px) {
+    /* 顶部样式 */
+    .nav12{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        margin: 0 auto;
+        padding: 6px 0;
+    }
+    .nav12-right{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: auto;
+        padding: 0 10px;
+    }
+    /* 支付方式 */
+    .PayMethod12{
+        padding: 15px 15px 8px 15px;
+    }
+    /* 底部固定按钮样式 */
+    .immediate-pay12 {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+        padding: 4px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        z-index: 1000;
+        margin: 0;
+    }
+    .immediate-pay12-right {
+        display: flex;
+        justify-content: space-between;
+        width: 94%;
+        margin: 0;
+    }
+    .footer12 {
+        margin: 0; /* 为底部固定按钮留出空间 */
+        padding-bottom: 60px;
+    }
+}
+</style>
 </head>
 <body style="background-color:#f9f9f9">
 <!--导航-->
