@@ -188,7 +188,8 @@ var handlerEmbed = function (captchaObj) {
 		}else{
 			sendto=$("input[name='email']").val();
 			if(sendto==''){layer.alert('邮箱不能为空！');return false;}
-			var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+			// var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+			var reg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.[a-zA-Z0-9_-]+$/;
 			if(!reg.test(sendto)){layer.alert('邮箱格式不正确！');return false;}
 		}
 		if(typeof captchaObj.showCaptcha === 'function'){
@@ -213,7 +214,8 @@ $(document).ready(function(){
 		if($("input[name='verifytype']").val()=='1'){
 			if(phone.length!=11){layer.alert('手机号码不正确！');return false;}
 		}else{
-			var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+			// var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+			var reg = /^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_.-])+\.[a-zA-Z0-9_-]+$/;
 			if(!reg.test(email)){layer.alert('邮箱格式不正确！');return false;}
 		}
 		var enc_type = '0';
