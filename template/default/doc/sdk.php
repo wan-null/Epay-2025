@@ -165,6 +165,7 @@ if(!defined('IN_CRONLITE'))exit();
                     initTree(catalogList);
                 </script>
                 <h1 id="SDK下载"><a href="#SDK下载">SDK下载</a></h1><h3 id="PHP-SDK"><a href="#PHP-SDK">PHP-SDK</a></h3><p><a href="/assets/files/SDK_2.0.zip">SDK.zip</a></p><p>版本：<code>V2.0</code></p>            <div id="mask" style="display:none" onclick="clickMask()"></div>
+                <h3 id="JAVA-SDK"><a href="#JAVA-SDK">JAVA-SDK</a></h3><p><a href="/assets/files/SDK_JAVA.zip">SDK.zip</a></p><p>版本：<code>V1</code></p>            <div id="mask" style="display:none" onclick="clickMask()"></div>
             </div>
         </div>
     </div>

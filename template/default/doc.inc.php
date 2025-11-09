@@ -298,4 +298,8 @@ foreach($paytype as $row){
 <a href="./assets/files/SDK.zip?_v=1.3" style="color:blue">SDK.zip</a><br/>
 SDK版本：V1.3
 </blockquote>
+<blockquote>
+<a href="./assets/files/SDK_JAVA.zip" style="color:blue">SDK_JAVA.zip</a><br/>
+SDK-JAVA版本：V1.3
+</blockquote>
 		</div>
