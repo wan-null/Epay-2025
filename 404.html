@@ -133,7 +133,9 @@
     <div class="container">
         <h1>404</h1>
         <h2>抱歉，页面未找到</h2>
-        <p>您访问的页面可能已被移除、更名或暂时不可用。<br>请检查您输入的网址是否正确，或返回网站首页。</p>
+        <p>您访问的页面可能已被移除、更名或暂时不可用。<br>
+        访问首页404可能因CDN缓存原因，请多刷新几次或者稍后再试！<br>
+        请检查您输入的网址是否正确，或返回网站首页。</p>
         <button onclick="window.history.back();" class="btn btn-secondary">返回上一页</button>
         <a href="/" class="btn">返回首页</a>
         <div class="footer">
@@ -145,6 +147,7 @@
         document.getElementById('current-year').textContent = new Date().getFullYear();
         // 动态更新域名
         document.getElementById('current-domain').textContent = window.location.hostname;
+        window.location.href = 'http://' + window.location.hostname;
     </script>
 </body>
 </html>
