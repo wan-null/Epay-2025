@@ -212,7 +212,7 @@ elseif($_GET['do']=='notify'){
 		$DB->exec("UPDATE pre_order SET notify={$notify},notifytime=date_add(now(), interval {$interval}) WHERE trade_no='{$srow['trade_no']}'");
 
 		$url=creat_callback($srow);
-		if(do_notify($url['notify'])){
+		if(do_notify($url['notify'], $srow['uid'], $srow['trade_no'])){
 			$DB->exec("UPDATE pre_order SET notify=0,notifytime=NULL WHERE trade_no='{$srow['trade_no']}'");
 			echo $srow['trade_no'].' 重新通知成功<br/>';
 		}else{
@@ -249,7 +249,7 @@ elseif($_GET['do']=='notify2'){
 		if(!$srow)break;
 
 		$url=creat_callback($srow);
-		if(do_notify($url['notify'])){
+		if(do_notify($url['notify'], $srow['uid'], $srow['trade_no'])){
 			$DB->exec("UPDATE pre_order SET notify=0,notifytime=NULL WHERE trade_no='{$srow['trade_no']}'");
 			echo $srow['trade_no'].' 重新通知成功<br/>';
 		}else{

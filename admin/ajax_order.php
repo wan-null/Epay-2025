@@ -276,7 +276,7 @@ case 'notify': //获取回调地址
 		exit('{"code":-1,"msg":"当前订单不存在！"}');
 	$url=creat_callback($row);
 	if($_POST['isget'] == 1){
-		if(do_notify($url['notify'])){
+		if(do_notify($url['notify'], $row['uid'], $row['trade_no'])){
 			$DB->exec("UPDATE pre_order SET notify=0 WHERE trade_no='$trade_no'");
 			exit('{"code":0}');
 		}

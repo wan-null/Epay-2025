@@ -37,6 +37,76 @@ function curl_get($url)
 	curl_close($ch);
 	return $content;
 }
+
+// 订单通知请求，请求失败发送邮箱并冻结订单
+function curl_get_notify($url, $uid = 0, $trade_no = '')
+{
+	global $conf, $DB;
+	$ch=curl_init($url);
+	if($conf['proxy'] == 1){
+		$proxy_server = $conf['proxy_server'];
+		$proxy_port = intval($conf['proxy_port']);
+		if($conf['proxy_type'] == 'https'){
+			$proxy_type = CURLPROXY_HTTPS;
+		}elseif($conf['proxy_type'] == 'sock4'){
+			$proxy_type = CURLPROXY_SOCKS4;
+		}elseif($conf['proxy_type'] == 'sock5'){
+			$proxy_type = CURLPROXY_SOCKS5;
+		}else{
+			$proxy_type = CURLPROXY_HTTP;
+		}
+		curl_setopt($ch, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+		curl_setopt($ch, CURLOPT_PROXY, $proxy_server);
+		curl_setopt($ch, CURLOPT_PROXYPORT, $proxy_port);
+		if(!empty($conf['proxy_user']) && !empty($conf['proxy_pwd'])){
+			$proxy_userpwd = $conf['proxy_user'].':'.$conf['proxy_pwd'];
+			curl_setopt($ch, CURLOPT_PROXYUSERPWD, $proxy_userpwd);
+		}
+		curl_setopt($ch, CURLOPT_PROXYTYPE, $proxy_type);
+	}
+	$httpheader[] = "Accept: */*";
+	$httpheader[] = "Accept-Language: zh-CN,zh;q=0.8";
+	$httpheader[] = "Connection: close";
+	curl_setopt($ch, CURLOPT_HTTPHEADER, $httpheader);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+	$content=curl_exec($ch);
+	
+	// 获取错误信息
+	$error = curl_error($ch);
+	// 错误代码
+	$error_no = curl_errno($ch);
+	// 获取请求信息
+	$info = curl_getinfo($ch);
+	
+	curl_close($ch);
+	
+	// 如果有错误且提供了商户ID，发送错误邮件
+	if($error_no > 0 && $uid > 0){
+		// 获取商户邮箱
+		$email = $DB->getColumn("SELECT email FROM pre_user WHERE uid=:uid LIMIT 1", [':uid'=>$uid]);
+		if($email){
+			$sub = "【通知失败】订单通知请求异常提醒";
+			$msg = "<h3>订单通知请求异常</h3>";
+			$msg .= "<p>订单号：{$trade_no}</p>";
+			$msg .= "<p>通知URL：{$url}</p>";
+			$msg .= "<p>错误代码：{$error_no}</p>";
+			$msg .= "<p>错误信息：<span style='color:red'>{$error}</span></p>";
+			$msg .= "<p>HTTP状态码：{$info['http_code']}</p>";
+			$msg .= "<p>通知时间：" . date('Y-m-d H:i:s') . "</p>";
+			$msg .= "<p>请检查您的服务器配置和网络连接，确保通知URL可以正常访问。</p>";
+			send_mail($email, $sub, $msg);
+		}
+		// 冻结订单
+		if(!empty($trade_no)){
+			\lib\Order::freeze($trade_no);
+		}
+	}
+	return $content;
+}
 function get_curl($url, $post=0, $referer=0, $cookie=0, $header=0, $ua=0, $nobaody=0, $addheader=0, $location=0)
 {
 	$ch = curl_init();
@@ -536,8 +606,10 @@ function get_main_host($url){
 	return $host;
 }
 
-function do_notify($url){
-	$return = curl_get($url);
+function do_notify($url, $uid = 0, $trade_no = ''){
+	// 官方版本
+	// $return = curl_get($url);
+	$return = curl_get_notify($url, $uid, $trade_no);
 	if(strpos($return,'success')!==false || strpos($return,'SUCCESS')!==false || strpos($return,'Success')!==false){
 		return true;
 	}else{
@@ -671,7 +743,7 @@ function processOrder(&$srow,$notify=true){
 			}
 		}
 		$url=creat_callback($srow);
-		if(do_notify($url['notify'])){
+		if(do_notify($url['notify'], $srow['uid'], $srow['trade_no'])){
 			$DB->exec("UPDATE pre_order SET notify=0 WHERE trade_no='{$srow['trade_no']}'");
 		}elseif($notify==true){
 			//通知时间：1分钟，3分钟，20分钟，1小时，2小时
