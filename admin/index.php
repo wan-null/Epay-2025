@@ -46,11 +46,13 @@ if($conf['admin_pwd']==='123456'){
 </div>
 	  <div class="panel panel-success">
 	    <div class="panel-heading"><h3 class="panel-title">支付方式收入统计（1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
+        <div class="table-responsive">
           <table class="table table-bordered table-striped">
 		    <thead><tr id="paytype_head"><th>日期</th></thead>
             <tbody id="paytype_list">
 			</tbody>
           </table>
+        </div>
       </div>
 	  <div class="panel panel-warning">
 	    <div class="panel-heading"><h3 class="panel-title">支付通道收入统计（1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
@@ -64,11 +66,13 @@ if($conf['admin_pwd']==='123456'){
       </div>
 	  <div class="panel panel-warning">
 	    <div class="panel-heading" style="background-color: #c09853;"><h3 class="panel-title">支付方式手续费利润（已扣除通道成本，1小时更新一次）<span class="pull-right"><a href="javascript:getData(true)" class="btn btn-default btn-xs"><i class="fa fa-refresh"></i></a></span></h3></div>
+        <div class="table-responsive">
           <table class="table table-bordered table-striped">
 		    <thead><tr id="profit_paytype_head"><th>日期</th></thead>
             <tbody id="profit_paytype_list">
 			</tbody>
           </table>
+        </div>
       </div>
     </div>
   </div>
